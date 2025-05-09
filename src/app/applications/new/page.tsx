@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,11 +10,21 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { FormField } from '@/components/ui/form';
+import { Select } from '@/components/ui/select';
 import { supabase } from '@/lib/supabase';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose
+} from '@/components/ui/dialog';
 
+// Schema for the main form
 const formSchema = z.object({
-  companyName: z.string().min(1, 'Company name is required'),
-  companyWebsite: z.string().optional(),
+  companyId: z.string().min(1, 'Company is required'),
   jobTitle: z.string().min(1, 'Job title is required'),
   jobDescription: z.string().optional(),
   jobLocation: z.string().optional(),
@@ -23,18 +33,33 @@ const formSchema = z.object({
   tags: z.string().optional(),
 });
 
+// Schema for the company creation form
+const companyFormSchema = z.object({
+  companyName: z.string().min(1, 'Company name is required'),
+  companyWebsite: z.string().optional(),
+});
+
 type FormValues = z.infer<typeof formSchema>;
+type CompanyFormValues = z.infer<typeof companyFormSchema>;
+
+interface Company {
+  id: string;
+  name: string;
+  website: string | null;
+}
 
 export default function NewApplicationPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [isCreatingCompany, setIsCreatingCompany] = useState(false);
 
+  // Main form
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      companyName: '',
-      companyWebsite: '',
+      companyId: '',
       jobTitle: '',
       jobDescription: '',
       jobLocation: '',
@@ -44,42 +69,88 @@ export default function NewApplicationPage() {
     },
   });
 
+  // Company creation form
+  const companyForm = useForm<CompanyFormValues>({
+    resolver: zodResolver(companyFormSchema),
+    defaultValues: {
+      companyName: '',
+      companyWebsite: '',
+    },
+  });
+
+  // Fetch companies on mount
+  useEffect(() => {
+    async function fetchCompanies() {
+      const { data, error } = await supabase
+        .from('companies')
+        .select('id, name, website')
+        .order('name');
+      
+      if (error) {
+        console.error('Error fetching companies:', error);
+        return;
+      }
+      
+      setCompanies(data || []);
+    }
+    
+    fetchCompanies();
+  }, []);
+
+  // Handle creating a new company
+  async function onCreateCompany(data: CompanyFormValues) {
+    setIsCreatingCompany(true);
+    
+    try {
+      const { data: newCompany, error } = await supabase
+        .from('companies')
+        .insert({
+          name: data.companyName,
+          website: data.companyWebsite || null,
+        })
+        .select('id, name, website')
+        .single();
+      
+      if (error) {
+        throw new Error('Error creating company');
+      }
+      
+      // Add new company to the list and select it
+      setCompanies([...companies, newCompany]);
+      form.setValue('companyId', newCompany.id);
+      
+      // Reset company form
+      companyForm.reset();
+      
+      // Close the dialog by simulating a click on the close button
+      const closeButton = document.querySelector('[data-dialog-close="true"]');
+      if (closeButton instanceof HTMLElement) {
+        closeButton.click();
+      }
+    } catch (err) {
+      console.error('Error creating company:', err);
+    } finally {
+      setIsCreatingCompany(false);
+    }
+  }
+
   async function onSubmit(data: FormValues) {
     setIsSubmitting(true);
     setError(null);
 
     try {
-      // First create or find the company
+      // Get the company data using the company ID
       const { data: companyData, error: companyError } = await supabase
         .from('companies')
         .select('id')
-        .eq('name', data.companyName)
-        .maybeSingle();
-
-      let companyId;
+        .eq('id', data.companyId)
+        .single();
 
       if (companyError) {
         throw new Error('Error finding company');
       }
-
-      if (!companyData) {
-        // Create new company
-        const { data: newCompany, error: createError } = await supabase
-          .from('companies')
-          .insert({
-            name: data.companyName,
-            website: data.companyWebsite || null,
-          })
-          .select('id')
-          .single();
-
-        if (createError) {
-          throw new Error('Error creating company');
-        }
-        companyId = newCompany.id;
-      } else {
-        companyId = companyData.id;
-      }
+      
+      const companyId = companyData.id;
 
       // Create job position
       const { data: positionData, error: positionError } = await supabase
@@ -185,26 +256,69 @@ export default function NewApplicationPage() {
 
       <div className="bg-card rounded-lg border p-6 space-y-6">
         <h2 className="text-xl font-medium border-b pb-2">Company Information</h2>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4">
           <FormField
-            name="companyName"
-            label="Company Name *"
-            error={form.formState.errors.companyName?.message}
+            name="companyId"
+            label="Company *"
+            error={form.formState.errors.companyId?.message}
           >
-            <Input
-              {...form.register('companyName')}
-              placeholder="Company Name"
-            />
-          </FormField>
-          <FormField
-            name="companyWebsite"
-            label="Company Website"
-            error={form.formState.errors.companyWebsite?.message}
-          >
-            <Input
-              {...form.register('companyWebsite')}
-              placeholder="https://example.com"
-            />
+            <div className="flex gap-3">
+              <div className="flex-1">
+                <Select
+                  {...form.register('companyId')}
+                  options={companies.map(company => ({
+                    value: company.id,
+                    label: company.name
+                  }))}
+                />
+              </div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button type="button" variant="outline">
+                    Create Company
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Create New Company</DialogTitle>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <FormField
+                      name="companyName"
+                      label="Company Name *"
+                      error={companyForm.formState.errors.companyName?.message}
+                    >
+                      <Input
+                        {...companyForm.register('companyName')}
+                        placeholder="Company Name"
+                      />
+                    </FormField>
+                    <FormField
+                      name="companyWebsite"
+                      label="Company Website"
+                      error={companyForm.formState.errors.companyWebsite?.message}
+                    >
+                      <Input
+                        {...companyForm.register('companyWebsite')}
+                        placeholder="https://example.com"
+                      />
+                    </FormField>
+                  </div>
+                  <DialogFooter>
+                    <DialogClose asChild data-dialog-close="true">
+                      <Button variant="outline" type="button">Cancel</Button>
+                    </DialogClose>
+                    <Button 
+                      type="button" 
+                      disabled={isCreatingCompany}
+                      onClick={companyForm.handleSubmit(onCreateCompany)}
+                    >
+                      {isCreatingCompany ? 'Creating...' : 'Create Company'}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
           </FormField>
         </div>
       </div>

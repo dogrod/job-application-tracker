@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import Link from 'next/link';
+// import Link from 'next/link';
 
 import './globals.css';
 
@@ -10,8 +10,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Dream Tracker - Job Application Tracking',
-  description: 'Track your job applications, interviews, and more',
+  title: 'Resume Wise - One-click Job Application Assistant',
+  description: 'Apply your dream job, track interviews, and more',
 };
 
 export default function RootLayout({
@@ -23,94 +23,42 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} antialiased bg-background`}>
         <div className="min-h-screen flex flex-col">
-          <header className="mercury-header">
-            <div className="mercury-container flex items-center justify-between h-14">
-              <div className="flex items-center gap-6">
-                <Link href="/" className="flex items-center space-x-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-6 w-6 text-primary"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <path d="M12 6v6l4 2" />
-                  </svg>
-                  <span className="inline-block text-xl font-semibold text-foreground">
-                    Dream Tracker
-                  </span>
-                </Link>
-                <nav className="hidden md:flex items-center space-x-6">
-                  <Link 
-                    href="/" 
-                    className="text-sm font-medium text-foreground transition-colors hover:text-primary"
-                  >
-                    Dashboard
-                  </Link>
-                  <Link 
-                    href="/applications" 
-                    className="text-sm font-medium text-foreground transition-colors hover:text-primary"
-                  >
-                    Applications
-                  </Link>
-                  <Link 
-                    href="/interviews" 
-                    className="text-sm font-medium text-foreground transition-colors hover:text-primary"
-                  >
-                    Interviews
-                  </Link>
-                </nav>
-              </div>
-              <div className="flex items-center gap-4">
-                <Link 
-                  href="/applications/new" 
-                  className="mercury-button mercury-button-primary text-sm"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="mr-2"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="M12 5v14" />
-                  </svg>
-                  Add Application
-                </Link>
-              </div>
+          <header>
+            <div className="container">
+                <div className="header-content">
+                    <a href="#" className="logo">
+                        <div className="logo-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                            </svg>
+                        </div>
+                        Resume Wise
+                    </a>
+                    <div className="header-actions">
+                        <button className="btn btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                            </svg>
+                            Add Application
+                        </button>
+                    </div>
+                </div>
             </div>
           </header>
-          <main className="flex-1">
-            <div className="mercury-container py-6 md:py-8">
-              {children}
-            </div>
+          <main className="container">
+            {children}
           </main>
-          <footer className="border-t border-border py-6">
-            <div className="mercury-container flex flex-col md:flex-row items-center justify-between gap-4">
-              <p className="text-sm text-muted-foreground">
-                &copy; {new Date().getFullYear()} Dream Tracker. All rights reserved.
-              </p>
-              <nav className="flex items-center gap-4">
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Terms
-                </a>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Privacy
-                </a>
-                <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Help
-                </a>
-              </nav>
+          <footer>
+            <div className="container">
+                <div className="footer-content">
+                    <div className="copyright">&copy; {new Date().getFullYear()} Resume Wise. All rights reserved.</div>
+                    <div className="footer-links">
+                        <a href="#">Terms</a>
+                        <a href="#">Privacy</a>
+                        <a href="#">Help</a>
+                    </div>
+                </div>
             </div>
           </footer>
         </div>

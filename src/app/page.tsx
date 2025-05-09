@@ -79,170 +79,161 @@ export default async function Home() {
   const typedApplications = applications as unknown as Application[];
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground">
-            Dashboard
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            Track and manage your job applications in one place
-          </p>
+    <main className="container">
+      <h1 className="page-title">Dashboard</h1>
+      <p className="page-description">Track and manage your job applications in one place</p>
+      
+      {/* Stats Grid */}
+      <div className="stats-grid">
+        <div className="stat-card">
+          <div className="stat-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+              <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+            </svg>
+            Applications
+          </div>
+          <div className="stat-value">{totalApplications || 0}</div>
+          <div className="stat-meta">
+            {totalApplications && totalApplications > 0 
+              ? `${totalApplications} total application${totalApplications > 1 ? 's' : ''}` 
+              : 'No applications yet'}
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <Link 
-            href="/applications/new"
-            className="mercury-button mercury-button-primary"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="mr-2"
-            >
-              <path d="M5 12h14" />
-              <path d="M12 5v14" />
+        
+        <div className="stat-card">
+          <div className="stat-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+            </svg>
+            Interviews
+          </div>
+          <div className="stat-value">{totalInterviews || 0}</div>
+          <div className="stat-meta">
+            {totalInterviews && totalInterviews > 0 
+              ? `${totalInterviews} interview${totalInterviews > 1 ? 's' : ''} scheduled` 
+              : 'No interviews scheduled'}
+          </div>
+        </div>
+        
+        <div className="stat-card">
+          <div className="stat-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 16.016a7.5 7.5 0 0 0 1.962-14.74A1 1 0 0 0 9 0H7a1 1 0 0 0-.962 1.276A7.5 7.5 0 0 0 8 16.016zm6.5-7.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+              <path d="m6.94 7.44 4.95-2.83-2.83 4.95-4.949 2.83 2.828-4.95z"/>
+            </svg>
+            Offers
+          </div>
+          <div className="stat-value">{totalOffers || 0}</div>
+          <div className="stat-meta">
+            {totalOffers && totalOffers > 0 
+              ? `${totalOffers} offer${totalOffers > 1 ? 's' : ''} received` 
+              : 'No offers received'}
+          </div>
+        </div>
+        
+        <div className="stat-card">
+          <div className="stat-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+            </svg>
+            Response Rate
+          </div>
+          <div className="stat-value">
+            {totalApplications && totalApplications > 0 && totalInterviews !== null
+              ? `${Math.round((totalInterviews / totalApplications) * 100)}%`
+              : '0%'}
+          </div>
+          <div className="stat-meta">
+            {totalInterviews && totalInterviews > 0 
+              ? `From ${totalApplications} application${totalApplications && totalApplications > 1 ? 's' : ''}` 
+              : 'No responses yet'}
+          </div>
+        </div>
+      </div>
+      
+      {/* Recent Applications */}
+      <div className="section-header">
+        <h2 className="section-title">Recent Applications</h2>
+        <span>{typedApplications?.length || 0} of {totalApplications || 0} applications</span>
+      </div>
+      
+      {typedApplications && typedApplications.length > 0 ? (
+        <div className="applications-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Position</th>
+                <th>Company</th>
+                <th>Tags</th>
+                <th>Status</th>
+                <th>Applied On</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {typedApplications.map((application) => (
+                <tr key={application.id}>
+                  <td>
+                    {application.job_positions.title}
+                    {application.current_status === 'applied' && (
+                      <span className="badge badge-new">New</span>
+                    )}
+                  </td>
+                  <td>{application.job_positions.companies.name}</td>
+                  <td>
+                    <div className="tag-container">
+                      {application.job_positions.position_tags?.map((pt) => (
+                        <span key={pt.tags.id} className="tag">{pt.tags.name}</span>
+                      ))}
+                    </div>
+                  </td>
+                  <td>
+                    <span className={`status ${
+                      application.current_status === 'offered' ? 'status-success' :
+                      application.current_status === 'denied' ? 'status-danger' :
+                      application.current_status === 'interview' ? 'status-warning' :
+                      'status-applied'
+                    }`}>
+                      {application.current_status.charAt(0).toUpperCase() + application.current_status.slice(1)}
+                    </span>
+                  </td>
+                  <td>{format(new Date(application.applied_at), 'MMM d, yyyy')}</td>
+                  <td>
+                    <Link href={`/applications/${application.id}`} className="btn btn-link">
+                      View Details
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="empty-state">
+          <div className="empty-state-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" 
+                fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" 
+                strokeLinejoin="round">
+              <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+              <line x1="16" x2="16" y1="2" y2="6" />
+              <line x1="8" x2="8" y1="2" y2="6" />
+              <line x1="3" x2="21" y1="10" y2="10" />
+              <path d="m9 16 2 2 4-4" />
+            </svg>
+          </div>
+          <h3 className="empty-state-title">No applications yet</h3>
+          <p className="empty-state-description">
+            You haven&apos;t added any job applications yet. Click &quot;Add Application&quot; to get started.
+          </p>
+          <Link href="/applications/new" className="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
             </svg>
             Add Application
           </Link>
         </div>
-      </div>
-
-      {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="mercury-stat-card">
-          <h3 className="font-medium text-sm mb-2 text-muted-foreground">Applications</h3>
-          <p className="text-2xl font-semibold">{totalApplications || 0}</p>
-        </div>
-        <div className="mercury-stat-card">
-          <h3 className="font-medium text-sm mb-2 text-muted-foreground">Interviews</h3>
-          <p className="text-2xl font-semibold">{totalInterviews || 0}</p>
-        </div>
-        <div className="mercury-stat-card">
-          <h3 className="font-medium text-sm mb-2 text-muted-foreground">Offers</h3>
-          <p className="text-2xl font-semibold">{totalOffers || 0}</p>
-        </div>
-      </div>
-
-      {/* Recent Applications */}
-      <div className="rounded-lg border shadow-sm bg-card overflow-hidden">
-        <div className="bg-muted/40 px-4 py-3 border-b flex justify-between items-center">
-          <h2 className="font-medium">Recent Applications</h2>
-          <div>
-            <span className="text-xs text-muted-foreground">
-              {typedApplications?.length || 0} of {totalApplications || 0} applications
-            </span>
-          </div>
-        </div>
-        
-        <div className="divide-y">
-          {typedApplications && typedApplications.length > 0 ? (
-            typedApplications.map((application) => (
-              <div key={application.id} className="p-4 hover:bg-secondary/30 transition-colors">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="text-base font-medium">{application.job_positions.title}</h3>
-                      {application.current_status === 'applied' && (
-                        <span className="mercury-badge mercury-badge-outline">
-                          New
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-muted-foreground text-sm">{application.job_positions.companies.name}</p>
-                    <div className="flex items-center flex-wrap gap-1.5 mt-3">
-                      {application.job_positions.position_tags?.map((pt) => (
-                        <span key={pt.tags.id} className="mercury-tag">{pt.tags.name}</span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end gap-2">
-                    <span className={`mercury-badge ${
-                      application.current_status === 'offered' ? 'mercury-badge-success' :
-                      application.current_status === 'denied' ? 'mercury-badge-destructive' :
-                      'mercury-badge-outline'
-                    }`}>
-                      {application.current_status.charAt(0).toUpperCase() + application.current_status.slice(1)}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      Applied on {format(new Date(application.applied_at), 'MMM d, yyyy')}
-                    </span>
-                    <Link 
-                      href={`/applications/${application.id}`}
-                      className="mercury-button mercury-button-outline text-xs h-8 mt-2"
-                    >
-                      View Details
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="p-8 text-center text-muted-foreground">
-              <p>No applications found.</p>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Empty State - show when there are no applications */}
-      {!typedApplications || typedApplications.length === 0 ? (
-        <div className="mercury-card text-center">
-          <div className="max-w-md mx-auto py-6">
-            <div className="flex justify-center mb-4">
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                width="48" 
-                height="48" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="1" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                className="text-muted-foreground opacity-60"
-              >
-                <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
-                <line x1="16" x2="16" y1="2" y2="6" />
-                <line x1="8" x2="8" y1="2" y2="6" />
-                <line x1="3" x2="21" y1="10" y2="10" />
-                <path d="m9 16 2 2 4-4" />
-              </svg>
-            </div>
-            <h3 className="font-medium text-lg mb-2">No applications yet</h3>
-            <p className="text-muted-foreground mb-6">
-              You haven&apos;t added any job applications yet. Click &quot;Add Application&quot; to get started.
-            </p>
-            <Link 
-              href="/applications/new"
-              className="mercury-button mercury-button-primary"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="mr-2"
-              >
-                <path d="M5 12h14" />
-                <path d="M12 5v14" />
-              </svg>
-              Add Application
-            </Link>
-          </div>
-        </div>
-      ) : null}
-    </div>
+      )}
+    </main>
   );
 }

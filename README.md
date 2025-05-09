@@ -1,6 +1,6 @@
-# Dream Tracker: Job Application Tracking App
+# Resume Wise: One-click job application assistant
 
-A comprehensive web application to track your job applications, interviews, and overall job search process.
+A comprehensive web application to apply your dream job, tracking interviews, and assist your all job search process.
 
 ## Features
 

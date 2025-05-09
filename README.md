@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dream Tracker: Job Application Tracking App
+
+A comprehensive web application to track your job applications, interviews, and overall job search process.
+
+## Features
+
+- Track job applications across companies
+- Record application statuses and updates
+- Manage interviews and interview feedback
+- Track interactions with hiring managers and recruiters
+- Organize job applications with tags
+- Store notes and attachments
+
+## Tech Stack
+
+- **Frontend**: Next.js 15, React 19, Tailwind CSS 4
+- **Backend**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
+- **Form Management**: React Hook Form, Zod validation
+- **Styling**: TailwindCSS with custom UI components
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+- Supabase account
+
+### Setting Up Supabase
+
+1. Create a new Supabase project
+2. Run the SQL from the initial schema provided to set up your database
+3. Run the seed data from `seeds.sql` to populate reference tables
+
+```sql
+-- Run seed data
+source seeds.sql
+```
+
+### Environment Variables
+
+Create a `.env.local` file in the root directory with the following:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+Replace with your actual Supabase project credentials.
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Start the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+dream-tracker/
+├── src/
+│   ├── app/                # Next.js App Router
+│   ├── components/         # React components
+│   │   ├── ui/             # Reusable UI components
+│   ├── lib/                # Utility functions and libraries
+└── public/                 # Static assets
+```
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+1. Add companies and job positions
+2. Track application status changes
+3. Schedule and record interviews
+4. Document feedback and follow-ups
+5. Organize applications with tags for easier filtering
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License.

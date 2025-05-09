@@ -1,26 +1,422 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --success: 142 76% 36%;
+    --success-foreground: 210 40% 98%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 210 40% 98%;
+
+    --border: 214.3 32% 91%;
+    --input: 214.3 32% 91%;
+    --ring: 221 83% 53%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217 91% 60%;
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --success: 142 76% 36%; /* Assuming success color remains the same in dark mode as per original */
+    --success-foreground: 210 40% 98%; /* Assuming success-foreground remains the same */
+
+    --warning: 38 92% 50%; /* Assuming warning color remains the same */
+    --warning-foreground: 222 47% 11%; /* Warning foreground changes in dark mode */
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 500; /* font-medium */
+    letter-spacing: -0.025em; /* tracking-tight */
+    color: hsl(var(--foreground));
+  }
+
+  h1 {
+    font-size: 1.875rem; /* text-3xl */
+    line-height: 2.25rem;
+  }
+
+  h2 {
+    font-size: 1.5rem; /* text-2xl */
+    line-height: 2rem;
+  }
+
+  h3 {
+    font-size: 1.25rem; /* text-xl */
+    line-height: 1.75rem;
+  }
+
+  p {
+    line-height: 1.625; /* leading-relaxed */
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .card-hover {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    border-color: hsl(var(--border));
+  }
+  .card-hover:hover {
+    border-color: hsla(var(--primary), 0.2); /* primary/20 */
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); /* shadow-md */
+    background-color: hsl(var(--card)); /* Assuming --card is white: 0 0% 100% */
+  }
+
+  .mercury-container {
+    padding-left: 1rem; /* px-4 */
+    padding-right: 1rem; /* px-4 */
+    max-width: 80rem; /* max-w-7xl */
+    margin-left: auto; /* mx-auto */
+    margin-right: auto; /* mx-auto */
+    width: 100%; /* w-full */
+  }
+  @media (min-width: 640px) { /* sm: */
+    .mercury-container {
+      padding-left: 1.5rem; /* sm:px-6 */
+      padding-right: 1.5rem; /* sm:px-6 */
+    }
+  }
+  @media (min-width: 768px) { /* md: */
+    .mercury-container {
+      padding-left: 2rem; /* md:px-8 */
+      padding-right: 2rem; /* md:px-8 */
+    }
+  }
+
+  .mercury-header {
+    padding-top: 1rem; /* py-4 */
+    padding-bottom: 1rem; /* py-4 */
+    background-color: hsla(var(--background), 0.8); /* bg-background/80 */
+    backdrop-filter: blur(12px); /* backdrop-blur-md */
+    position: sticky; /* sticky */
+    top: 0px; /* top-0 */
+    z-index: 10; /* z-10 */
+    border-bottom-width: 1px; /* border-b */
+    /* border-color is inherited from * or can be set explicitly if needed */
+  }
+  @media (min-width: 768px) { /* md: */
+    .mercury-header {
+      padding-top: 1.5rem; /* md:py-6 */
+      padding-bottom: 1.5rem; /* md:py-6 */
+    }
+  }
+
+  .mercury-card {
+    border-radius: var(--radius); /* rounded-lg (uses custom prop from your config) */
+    border-width: 1px; /* border */
+    background-color: hsl(var(--card)); /* bg-card */
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
+    padding: 1.25rem; /* p-5 */
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  .mercury-card:hover {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); /* hover:shadow-md */
+  }
+
+  .mercury-stat-card {
+    border-radius: var(--radius); /* rounded-lg */
+    border-width: 1px; /* border */
+    background-color: hsla(var(--card), 0.7); /* bg-card/70 */
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
+    padding: 1rem; /* p-4 */
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  .mercury-stat-card:hover {
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); /* hover:shadow (Tailwind default shadow) */
+  }
+
+  .mercury-tag {
+    display: inline-flex; /* inline-flex */
+    align-items: center; /* items-center */
+    border-radius: 9999px; /* rounded-full */
+    border-width: 1px; /* border */
+    border-color: transparent; /* border-transparent */
+    background-color: hsla(var(--secondary), 0.8); /* bg-secondary/80 */
+    padding-left: 0.625rem; /* px-2.5 */
+    padding-right: 0.625rem; /* px-2.5 */
+    padding-top: 0.125rem; /* py-0.5 */
+    padding-bottom: 0.125rem; /* py-0.5 */
+    font-size: 0.75rem; /* text-xs */
+    line-height: 1rem;
+    font-weight: 500; /* font-medium */
+    color: hsl(var(--secondary-foreground)); /* text-secondary-foreground */
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; /* transition-colors */
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  .mercury-tag:hover {
+    background-color: hsl(var(--secondary)); /* hover:bg-secondary */
+  }
+
+  .mercury-badge {
+    display: inline-flex; /* inline-flex */
+    align-items: center; /* items-center */
+    border-radius: 9999px; /* rounded-full */
+    border-width: 1px; /* border */
+    /* border-color is inherited from * or should be set by variants */
+    padding-left: 0.625rem; /* px-2.5 */
+    padding-right: 0.625rem; /* px-2.5 */
+    padding-top: 0.125rem; /* py-0.5 */
+    padding-bottom: 0.125rem; /* py-0.5 */
+    font-size: 0.75rem; /* text-xs */
+    line-height: 1rem;
+    font-weight: 500; /* font-medium */
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; /* transition-colors */
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  .mercury-badge:focus {
+    outline: 2px solid transparent; /* focus:outline-none */
+    outline-offset: 2px;
+    /* Using simplified box-shadow for ring to avoid complex CSS vars if not globally available */
+    box-shadow: 0 0 0 2px hsl(var(--ring)); /* focus:ring-2 focus:ring-ring */
+    /* For focus:ring-offset-2, assuming offset color is background. This is a simplified representation.
+       A more accurate Tailwind ring requires more complex box-shadow setup or CSS variables.
+       Example: box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring));
+       Using the simpler version for now. */
+  }
+
+  .mercury-badge-outline {
+    border-color: transparent; /* border-transparent */
+    background-color: hsla(var(--primary), 0.1); /* bg-primary/10 */
+    color: hsl(var(--primary)); /* text-primary */
+  }
+  .mercury-badge-outline:hover {
+    background-color: hsla(var(--primary), 0.2); /* hover:bg-primary/20 */
+  }
+
+  .mercury-badge-success {
+    border-color: transparent; /* border-transparent */
+    background-color: hsla(var(--success), 0.1); /* bg-success/10 */
+    color: hsl(var(--success)); /* text-success */
+  }
+  .mercury-badge-success:hover {
+    background-color: hsla(var(--success), 0.2); /* hover:bg-success/20 */
+  }
+
+  .mercury-badge-warning {
+    border-color: transparent; /* border-transparent */
+    background-color: hsla(var(--warning), 0.1); /* bg-warning/10 */
+    color: hsla(var(--warning), 0.9); /* text-warning/90 - Note: text opacity is applied to the color itself */
+  }
+  .mercury-badge-warning:hover {
+    background-color: hsla(var(--warning), 0.2); /* hover:bg-warning/20 */
+  }
+
+  .mercury-button {
+    display: inline-flex; /* inline-flex */
+    height: 2.25rem; /* h-9 */
+    align-items: center; /* items-center */
+    justify-content: center; /* justify-center */
+    border-radius: calc(var(--radius) - 2px); /* rounded-md (uses config) */
+    border-width: 1px; /* border */
+    font-weight: 500; /* font-medium */
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, box-shadow; /* transition-colors + shadow */
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  .mercury-button:focus-visible {
+    outline: 2px solid transparent; /* focus-visible:outline-none */
+    outline-offset: 2px;
+    box-shadow: 0 0 0 1px hsl(var(--ring)); /* focus-visible:ring-1 focus-visible:ring-ring */
+  }
+  .mercury-button:disabled {
+    pointer-events: none; /* disabled:pointer-events-none */
+    opacity: 0.5; /* disabled:opacity-50 */
+  }
+
+  .mercury-button-primary {
+    background-color: hsl(var(--primary)); /* bg-primary */
+    color: hsl(var(--primary-foreground)); /* text-primary-foreground */
+    border-color: transparent; /* border-transparent */
+  }
+  .mercury-button-primary:hover {
+    background-color: hsla(var(--primary), 0.9); /* hover:bg-primary/90 */
+  }
+
+  .mercury-button-outline {
+    border-color: hsl(var(--border)); /* border-border */
+    background-color: hsl(var(--background)); /* bg-background */
+    color: hsl(var(--foreground)); /* text-foreground */
+  }
+  .mercury-button-outline:hover {
+    background-color: hsla(var(--secondary), 0.5); /* hover:bg-secondary/50 */
+  }
+
+  .mercury-button-ghost {
+    border-color: transparent; /* border-transparent */
+    background-color: transparent; /* bg-transparent */
+    color: hsl(var(--foreground)); /* text-foreground */
+  }
+  .mercury-button-ghost:hover {
+    background-color: hsla(var(--secondary), 0.5); /* hover:bg-secondary/50 */
+  }
+
+  .mercury-input {
+    display: flex; /* flex */
+    height: 2.25rem; /* h-9 */
+    width: 100%; /* w-full */
+    border-radius: calc(var(--radius) - 2px); /* rounded-md (uses config) */
+    border-width: 1px; /* border */
+    border-color: hsl(var(--input)); /* border-input */
+    background-color: transparent; /* bg-transparent */
+    padding-left: 0.75rem; /* px-3 */
+    padding-right: 0.75rem; /* px-3 */
+    padding-top: 0.25rem; /* py-1 */
+    padding-bottom: 0.25rem; /* py-1 */
+    font-size: 0.875rem; /* text-sm */
+    line-height: 1.25rem;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, box-shadow; /* transition-colors + shadow */
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  .mercury-input::placeholder {
+    color: hsl(var(--muted-foreground)); /* placeholder:text-muted-foreground */
+    opacity: 1; /* Ensure placeholder is visible */
+  }
+  .mercury-input:focus-visible {
+    outline: 2px solid transparent; /* focus-visible:outline-none */
+    outline-offset: 2px;
+    box-shadow: 0 0 0 1px hsl(var(--ring)); /* focus-visible:ring-1 focus-visible:ring-ring */
+  }
+  .mercury-input:disabled {
+    cursor: not-allowed; /* disabled:cursor-not-allowed */
+    opacity: 0.5; /* disabled:opacity-50 */
+  }
+
+  .mercury-section {
+    padding-top: 1.5rem; /* py-6 */
+    padding-bottom: 1.5rem; /* py-6 */
+  }
+
+  .mercury-tabs-list {
+    display: inline-flex; /* inline-flex */
+    height: 2.25rem; /* h-9 */
+    align-items: center; /* items-center */
+    justify-content: center; /* justify-center */
+    border-radius: var(--radius); /* rounded-lg (uses config, as it's a common radius for containers) */
+    background-color: hsl(var(--muted)); /* bg-muted */
+    padding: 0.25rem; /* p-1 */
+    color: hsl(var(--muted-foreground)); /* text-muted-foreground */
+  }
+
+  .mercury-tabs-trigger {
+    display: inline-flex; /* inline-flex */
+    align-items: center; /* items-center */
+    justify-content: center; /* justify-center */
+    white-space: nowrap; /* whitespace-nowrap */
+    border-radius: calc(var(--radius) - 2px); /* rounded-md (Tailwind default for items in such components) */
+    padding-left: 0.75rem; /* px-3 */
+    padding-right: 0.75rem; /* px-3 */
+    padding-top: 0.25rem; /* py-1 */
+    padding-bottom: 0.25rem; /* py-1 */
+    font-size: 0.875rem; /* text-sm */
+    line-height: 1.25rem;
+    font-weight: 500; /* font-medium */
+    /* ring-offset-background is a CSS variable, if we are not using Tailwind's ring system directly,
+       this would influence how box-shadow rings appear if they use offsets.
+       For now, this only sets a variable that would be used by Tailwind's ring utilities.
+       If not using those, this line has no direct visual effect on its own.
+    */
+    --tw-ring-offset-color: hsl(var(--background)); /* ring-offset-background */
+    transition-property: all; /* transition-all */
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  .mercury-tabs-trigger:focus-visible {
+    outline: 2px solid transparent; /* focus-visible:outline-none */
+    outline-offset: 2px;
+    /* Simplified ring, assuming offset is handled by --tw-ring-offset-color if a full ring system was used. */
+    box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring)); /* focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 */
+  }
+  .mercury-tabs-trigger:disabled {
+    pointer-events: none; /* disabled:pointer-events-none */
+    opacity: 0.5; /* disabled:opacity-50 */
+  }
+  .mercury-tabs-trigger[data-state="active"] {
+    background-color: hsl(var(--background)); /* data-[state=active]:bg-background */
+    color: hsl(var(--foreground)); /* data-[state=active]:text-foreground */
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* data-[state=active]:shadow (Tailwind's shadow-sm, common for active states) */
+  }
+
+  .mercury-tabs-content {
+    margin-top: 0.5rem; /* mt-2 */
+    /* ring-offset-background sets a variable as above. */
+    --tw-ring-offset-color: hsl(var(--background)); /* ring-offset-background */
+  }
+  .mercury-tabs-content:focus-visible {
+    outline: 2px solid transparent; /* focus-visible:outline-none */
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring)); /* focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 */
+  }
 }
